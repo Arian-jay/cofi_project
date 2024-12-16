@@ -5,20 +5,78 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { ref, defineProps } from 'vue';
+import { ref } from 'vue';
 
-const props = defineProps({
-    products:{
-        type: Array,
-        default: () => [],
+defineProps({
+    canLogin: {
+        type: Boolean,
     },
-    category:{
-        type: Array,
-        default:() => [],
-    }
+    canRegister: {
+        type: Boolean,
+    },
+    laravelVersion: {
+        type: String,
+        required: true,
+    },
+    phpVersion: {
+        type: String,
+        required: true,
+    },
 });
 
 const showingNavigationDropdown = ref(false);
+
+const products = [
+    {
+        name: 'Dark Hot Choco',
+        image: '/images/products/promo/dark-hot-chocolate.png',
+        price: '25.00'
+    },
+    {
+        name: 'Peppermint Cocoa',
+        image: '/images/products/promo/peppermint-cocoa.png',
+        price: '25.00'
+    },
+    {
+        name: 'Biscoff Cream',
+        image: '/images/products/promo/biscoff-cream.png',
+        price: '25.00'
+    },
+];
+
+const latte = [
+    {
+        name: 'Classic Black Coffee',
+        image: '/images/products/latte/CLASSIC BLACK COFFEE.png',
+        price: '25.00'
+    },
+    {
+        name: 'Caramel Macchiato',
+        image: '/images/products/latte/CLASSIC CARAMEL MACCHIATO.png',
+        price: '25.00'
+    },
+    {
+        name: 'Hot Cocoa',
+        image: '/images/products/latte/CLASSIC HOT COCOA.png',
+        price: '25.00'
+    },
+    {
+        name: 'Classic Latte',
+        image: '/images/products/latte/CLASSIC LATTE.png',
+        price: '25.00'
+    },
+    {
+        name: 'Matcha Latte',
+        image: '/images/products/latte/MATCHA LATTE.png',
+        price: '25.00'
+    },
+    {
+        name: 'Strawberry Latte',
+        image: '/images/products/latte/STRAWBERRY LATTE.png',
+        price: '25.00'
+    },
+
+];
 </script>
 
 <template>
@@ -33,16 +91,16 @@ const showingNavigationDropdown = ref(false);
                         <div class="flex ">
                             <!-- Logo -->
                             <div class="flex shrink-0 items-center ">
-                                <Link :href="route('dash')">
+                                <Link :href="route('dashboard')">
                                     <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
-                                <NavLink :href="route('dash')" class="ml-2 text-xl font-bold text-gray-900">COFI</NavLink>
+                                <NavLink :href="route('dashboard')" class="ml-2 text-xl font-bold text-gray-900">COFI</NavLink>
                             </div>
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('dash')" :active="route().current('dash')">HOME</NavLink>
-                                <NavLink :href="route('menu')" class="me-20">MENU</NavLink>
+                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">HOME</NavLink>
+                                <NavLink :href="route('menu')">MENU</NavLink>
                                 <NavLink :href="route('contact')">CONTACT US</NavLink>
                             </div>
                         </div>
@@ -50,12 +108,6 @@ const showingNavigationDropdown = ref(false);
                         
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">   
-                            <NavLink :href="route('transactions.page')">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-9 h-9 text-right me-4">
-                                    <path fill-rule="evenodd" d="M4.125 3C3.089 3 2.25 3.84 2.25 4.875V18a3 3 0 0 0 3 3h15a3 3 0 0 1-3-3V4.875C17.25 3.839 16.41 3 15.375 3H4.125ZM12 9.75a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 0-1.5H12Zm-.75-2.25a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 0 1.5H12a.75.75 0 0 1-.75-.75ZM6 12.75a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5H6Zm-.75 3.75a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75ZM6 6.75a.75.75 0 0 0-.75.75v3c0 .414.336.75.75.75h3a.75.75 0 0 0 .75-.75v-3A.75.75 0 0 0 9 6.75H6Z" clip-rule="evenodd" />
-                                    <path d="M18.75 6.75h1.875c.621 0 1.125.504 1.125 1.125V18a1.5 1.5 0 0 1-3 0V6.75Z" />
-                                </svg>
-                            </NavLink>  
                             <NavLink :href="route('cart')">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-9 h-9 text-right">
                                     <path d="M2.25 2.25a.75.75 0 0 0 0 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 0 0-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 0 0 0-1.5H5.378A2.25 2.25 0 0 1 7.5 15h11.218a.75.75 0 0 0 .674-.421 60.358 60.358 0 0 0 2.96-7.228.75.75 0 0 0-.525-.965A60.864 60.864 0 0 0 5.68 4.509l-.232-.867A1.875 1.875 0 0 0 3.636 2.25H2.25ZM3.75 20.25a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM16.5 20.25a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Z" />
@@ -98,11 +150,10 @@ const showingNavigationDropdown = ref(false);
                 <!-- Responsive Navigation Menu -->
                 <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }" class="sm:hidden">
                     <div class="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink :href="route('dash')" :active="route().current('dash')">HOME</ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">HOME</ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('menu')" :active="route().current('menu')">MENU</ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('contact')" :active="route().current('contact')">CONTACT US</ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('cart')" :active="route().current('cart')">MY CART</ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('transactions.page')" :active="route().current('transactions.page')">MY CART</ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('cart')">MY CART</ResponsiveNavLink>
                     </div>
 
                     <div class="border-t border-gray-200 pb-1 pt-4">
@@ -130,12 +181,13 @@ const showingNavigationDropdown = ref(false);
         </div>
         <!-- lmited edition -->
         <div >
+            
             <div class="bg-white text-white">
                 <div class="text-center py-8">
                     <h1 class="text-5xl font-bold text-black font-serif">HOLIDAY LIMITED EDITION</h1>
                 </div>
                 <div class="flex flex-wrap justify-center gap-4 px-3">
-                    <div v-for="product in products.filter(product => product.category_id === 1)" :key="product.id" class="rounded-lg pt-4 text-center shadow-lg w-[150px]">
+                    <div v-for="product in products" :key="product.id" class="rounded-lg pt-4 text-center shadow-lg w-[150px]">
                         <img :src="product.image" :alt="product.name" class="h-40 w-auto mx-auto mb-2" />
                         <h2 class="text-xs text-black font-bold">{{ product.name }}</h2>
                         <p class="text-xs text-black mb-2 font-semibold">₱{{ product.price }}</p>
@@ -152,7 +204,7 @@ const showingNavigationDropdown = ref(false);
                     <h1 class="text-lg md:ms-20 font-bold text-black font-serif">BARISTA PICKS</h1>
                 </div>
                 <div class="flex flex-wrap justify-center gap-4 px-3">
-                    <div v-for="(product, index) in products.filter(product => product.category_id === 2).slice(0, 4)" :key="product.id" class="rounded-lg pt-4 text-center shadow-lg w-[150px]">
+                    <div v-for="(product, index) in latte.slice(0, 4)" :key="product.id" class="rounded-lg pt-4 text-center shadow-lg w-[150px]">
                         <img :src="product.image" :alt="product.name" class="h-40 w-auto mx-auto mb-2" />
                         <h2 class="text-xs text-black font-bold">{{ product.name }}</h2>
                         <p class="text-xs text-black mb-2 font-semibold">₱{{ product.price }}</p>
@@ -177,7 +229,7 @@ const showingNavigationDropdown = ref(false);
                     <div class="w-full sm:w-1/2 md:w-1/3 mb-6 md:mb-0">
                         <h3 class="text-xl font-bold mb-2">Quick Links</h3>
                         <div class="flex flex-col space-y-4">
-                          <NavLink :href="route('dash')" :active="route().current('dash')" class="text-gray-400 hover:text-white">HOME</NavLink>
+                          <NavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-gray-400 hover:text-white">HOME</NavLink>
                           <NavLink :href="route('menu')" :active="route().current('menu')"  class="text-gray-400 hover:text-white">MENU</NavLink>
                           <NavLink :href="route('contact')" :active="route().current('contact')"  class="text-gray-400 hover:text-white">CONTACT US</NavLink>
                           <NavLink :href="route('cart')" :active="route().current('cart')" class="text-gray-400 hover:text-white">MY CART</NavLink>
@@ -217,3 +269,4 @@ const showingNavigationDropdown = ref(false);
         </footer>
     </div>
 </template>
+

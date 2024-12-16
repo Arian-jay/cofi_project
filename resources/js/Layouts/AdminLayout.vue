@@ -197,7 +197,6 @@ const showingNavigationDropdown = ref(false);
                     <slot name="header" />
                 </div>
             </header>
-
         </div>
     </div>
 </template>
